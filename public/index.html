@@ -1031,8 +1031,8 @@
 
                 try {
                     console.log('Making API call to /api/audit/analyze');
-                    const apiUrl = `http://localhost:3000/api/audit/analyze?t=${Date.now()}`;
-                    console.log('Using absolute API URL with cache bust:', apiUrl);
+                    const apiUrl = `/api/audit/analyze?t=${Date.now()}`;
+                    console.log('Using relative API URL with cache bust:', apiUrl);
                     
                     // Use XMLHttpRequest instead of fetch to avoid HTTPS upgrade issues
                     const xhr = new XMLHttpRequest();
@@ -1653,8 +1653,10 @@
 
         // Handle chatbot form submission
         if (chatbotForm) {
+            console.log('✅ Chatbot form found, adding event listener');
             chatbotForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
+                console.log('📧 Chatbot form submitted!');
                 
                 const formData = new FormData(chatbotForm);
                 const chatbotData = {
@@ -1676,13 +1678,20 @@
                     submitBtn.disabled = true;
 
                     // Send to Brevo API
-                    const response = await fetch('/api/leads/submit-lead', {
+                    console.log('🌐 Making API call to /api/leads/submit-lead');
+                    const apiUrl = `/api/leads/submit-lead`;
+                    console.log('📡 Using relative API URL:', apiUrl);
+                    
+                    const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify(chatbotData)
                     });
+                    
+                    console.log('📡 Response status:', response.status);
+                    console.log('📡 Response ok:', response.ok);
 
                     const result = await response.json();
 
@@ -1705,6 +1714,11 @@
 
                 } catch (error) {
                     console.error('❌ Error submitting lead:', error);
+                    console.error('❌ Error details:', {
+                        message: error.message,
+                        stack: error.stack,
+                        name: error.name
+                    });
                     
                     // Show error message
             const errorDiv = document.createElement('div');

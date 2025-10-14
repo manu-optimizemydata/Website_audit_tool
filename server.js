@@ -21,6 +21,7 @@ app.use(helmet({
       fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "http://localhost:*", "https://localhost:*", "https://*.vercel.app"],
       upgradeInsecureRequests: null, // Disable HTTPS upgrade for localhost
     },
   },
