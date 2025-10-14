@@ -1,0 +1,35 @@
+{
+  "name": "website-audit-tool",
+  "version": "1.0.0",
+  "description": "A comprehensive website audit tool for performance, SEO, and accessibility analysis",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "lighthouse": "^11.4.0",
+    "puppeteer": "^21.5.2",
+    "sib-api-v3-sdk": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "website",
+    "audit",
+    "seo",
+    "performance",
+    "accessibility",
+    "lighthouse"
+  ],
+  "author": "Website Audit Tool",
+  "license": "MIT"
+}

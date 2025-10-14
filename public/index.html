@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Audit Tool - Professional SEO Analysis</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(30, 30, 60, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(50, 50, 100, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 50, 0.3) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Glassmorphism Header */
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Main Form Container */
+        .form-container {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(100, 200, 255, 0.3), transparent);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            font-size: 1rem;
+            letter-spacing: 0.025em;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .url-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #64c8ff;
+            box-shadow: 
+                0 0 0 4px rgba(100, 200, 255, 0.2),
+                0 8px 25px rgba(100, 200, 255, 0.3);
+            transform: translateY(-2px);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .url-input:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Premium Button Styles */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .audit-button {
+            background: linear-gradient(135deg, #64c8ff 0%, #4a90e2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 8px 25px rgba(100, 200, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.025em;
+        }
+
+        .audit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .audit-button:hover::before {
+            left: 100%;
+        }
+
+        .audit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(100, 200, 255, 0.5);
+        }
+
+        .audit-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            margin-top: 4rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .benefits-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #64c8ff, #4a90e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .benefit-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #e5e7eb;
+            font-weight: 500;
+        }
+
+        /* Results Section */
+        .results {
+            display: none;
+            margin-top: 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Error Message */
+        .error {
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            color: #fca5a5;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* Category Page Styles */
+        .category-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 2rem 0;
+        }
+
+        .category-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .category-header {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(100, 200, 255, 0.2);
+            color: #64c8ff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            background: rgba(100, 200, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(100, 200, 255, 0.3);
+        }
+
+        .category-header h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .category-header h1 i {
+            margin-right: 1rem;
+            color: #64c8ff;
+        }
+
+        .category-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .audited-url {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-weight: 600;
+        }
+
+        .audit-date {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            font-weight: 600;
+        }
+
+        .category-body {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+                margin: 0 auto;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .audit-button,
+            .test-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .benefit-card {
+                padding: 1.5rem;
+            }
+
+            .category-container {
+                padding: 0 1rem;
+            }
+
+            .category-header {
+                padding: 1.5rem;
+            }
+
+            .category-header h1 {
+                font-size: 2rem;
+            }
+
+            .category-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .category-body {
+                padding: 1.5rem;
+            }
+
+            .metrics-grid, .seo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 1.5rem 1rem;
+                margin: 0 auto;
+            }
+
+            .url-input {
+                padding: 1rem 1.25rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .chatbot-toggle i {
+            color: white;
+            font-size: 24px;
+        }
+
+        .chatbot-panel {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 300px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px) scale(0.9);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .chatbot-panel.active {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            padding: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .chatbot-header p {
+            margin: 6px 0 0 0;
+            font-size: 13px;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .close-chatbot {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .close-chatbot:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .chatbot-body {
+            padding: 15px;
+        }
+
+        .chatbot-message {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 16px 18px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(20px, -20px);
+        }
+
+        .chatbot-message p {
+            margin: 0;
+            color: #2d3748;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chatbot-form .form-group {
+            margin-bottom: 12px;
+        }
+
+        .chatbot-form label,
+        .chatbot-body label,
+        .chatbot-container label {
+            display: block !important;
+            color: #1a202c !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            margin-bottom: 8px !important;
+            text-shadow: none !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%) !important;
+            padding: 6px 12px !important;
+            border-radius: 8px !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .chatbot-form input,
+        .chatbot-body input,
+        .chatbot-container input {
+            width: 100% !important;
+            padding: 12px 16px !important;
+            border: 2px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            font-size: 14px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: #ffffff !important;
+            color: #2d3748 !important;
+            font-weight: 500 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .chatbot-form input:focus,
+        .chatbot-body input:focus,
+        .chatbot-container input:focus {
+            outline: none !important;
+            border-color: #667eea !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(102, 126, 234, 0.15) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .chatbot-form input::placeholder {
+            color: #000000 !important;
+            font-weight: 700 !important;
+            opacity: 0.7;
+        }
+
+        .chatbot-form input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .chatbot-submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .chatbot-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .chatbot-success {
+            text-align: center;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .chatbot-success i {
+            font-size: 48px;
+            color: #48bb78;
+            margin-bottom: 15px;
+        }
+
+        .chatbot-success h3 {
+            margin: 0 0 10px 0;
+            color: #2d3748;
+        }
+
+        .chatbot-success p {
+            margin: 0;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6), 0 0 0 10px rgba(102, 126, 234, 0.1);
+            }
+            100% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            }
+        }
+
+        /* Responsive Design for Chatbot */
+        @media (max-width: 768px) {
+            .chatbot-container {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .chatbot-panel {
+                width: 250px;
+                right: -30px;
+            }
+            
+            .chatbot-toggle {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-container {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .chatbot-panel {
+                width: 220px;
+                right: -20px;
+            }
+            
+            .chatbot-toggle {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <div class="chatbot-panel" id="chatbotPanel">
+            <div class="chatbot-header">
+                <h3>🤖 SEO Assistant</h3>
+                <p>Need help optimizing your website?</p>
+                <button class="close-chatbot" id="closeChatbot">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-body">
+                <div class="chatbot-message">
+                    <p>Hi! I noticed you're using our website audit tool. Would you like help optimizing your website for search engines? I can connect you with our SEO experts!</p>
+                </div>
+                <form id="chatbotForm">
+                    <div class="form-group">
+                        <label for="chatbotName">Name *</label>
+                        <input type="text" id="chatbotName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="chatbotEmail">Email *</label>
+                        <input type="email" id="chatbotEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="chatbotPhone">Phone *</label>
+                        <input type="tel" id="chatbotPhone" name="phone" required>
+                    </div>
+                    <button type="submit" class="chatbot-submit-btn">Get SEO Help</button>
+                </form>
+                <div class="chatbot-success" id="chatbotSuccess" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Thank You!</h3>
+                    <p>Our SEO experts will contact you within 24 hours to help optimize your website.</p>
+                </div>
+            </div>
+        </div>
+        <button class="chatbot-toggle" id="chatbotToggle">
+            <i class="fas fa-robot"></i>
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1><i class="fas fa-search"></i> Website Audit Tool</h1>
+            <p>Analyze your website's performance, SEO, accessibility, and crawlability with our professional-grade audit tool</p>
+        </div>
+
+        <!-- Main Form -->
+        <div class="form-container">
+            <form id="auditForm">
+                <div class="form-group">
+                    <label for="url">Website URL</label>
+                    <input type="url" id="url" class="url-input" placeholder="https://example.com" required>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="audit-button" id="auditButton">
+                        <i class="fas fa-play"></i>
+                        Start Audit
+                    </button>
+                </div>
+            </form>
+
+            <!-- Loading State -->
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Analyzing your website...</div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="error" id="error" style="display: none;"></div>
+
+            <!-- Results -->
+            <div class="results" id="results">
+                <div id="resultsContent"></div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="benefits-section">
+            <h2 class="benefits-title">Why Choose Our Audit Tool?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="benefit-title">Boost Performance</h3>
+                    <p class="benefit-description">Identify and fix performance bottlenecks to improve your site's speed and user experience.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="benefit-title">Improve SEO</h3>
+                    <p class="benefit-description">Get actionable SEO recommendations to increase your search engine rankings and organic traffic.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-universal-access"></i>
+                    </div>
+                    <h3 class="benefit-title">Fix Accessibility</h3>
+                    <p class="benefit-description">Ensure your website is accessible to all users and meets WCAG guidelines.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3 class="benefit-title">Find Errors</h3>
+                    <p class="benefit-description">Detect technical issues, broken links, and crawlability problems that could hurt your site.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Analysis Modal -->
+    <div id="detailedModal" class="modal">
+        <div class="modal-content">
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Category Analysis Page -->
+    <div id="categoryPage" class="category-page" style="display: none;">
+        <div class="category-container">
+            <div id="categoryContent"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log('JavaScript loaded!');
+        
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded!');
+            
+            const form = document.getElementById('auditForm');
+            const urlInput = document.getElementById('url');
+            const auditButton = document.getElementById('auditButton');
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            const error = document.getElementById('error');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            console.log('Elements found:', {
+                form: !!form,
+                urlInput: !!urlInput,
+                auditButton: !!auditButton,
+                loading: !!loading,
+                results: !!results,
+                error: !!error,
+                resultsContent: !!resultsContent
+            });
+            
+            if (!form || !urlInput || !auditButton) {
+                console.error('Critical elements not found!');
+                return;
+            }
+            
+            // Prevent duplicate requests
+            let isAuditing = false;
+            
+            // Button click handler for audit
+            auditButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                if (isAuditing) {
+                    console.log('Audit already in progress, ignoring click');
+                    return;
+                }
+                
+                console.log('Button clicked! Starting audit...');
+                isAuditing = true;
+                
+                let url = urlInput.value.trim();
+                console.log('URL entered:', url);
+                
+                if (!url) {
+                    console.log('No URL provided');
+                    showError('Please enter a valid URL');
+                    return;
+                }
+
+                // Preprocess URL - add https:// if missing
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'https://' + url;
+                    console.log('Added https:// prefix:', url);
+                }
+
+                // Validate URL format
+                try {
+                    new URL(url);
+                    console.log('URL validation passed:', url);
+                } catch (error) {
+                    console.log('URL validation failed:', url, error.message);
+                    showError('Please enter a valid URL format (e.g., https://example.com)');
+                    return;
+                }
+
+                showLoading();
+                hideError();
+                hideResults();
+
+                try {
+                    console.log('Making API call to /api/audit/analyze');
+                    const apiUrl = `http://localhost:3000/api/audit/analyze?t=${Date.now()}`;
+                    console.log('Using absolute API URL with cache bust:', apiUrl);
+                    
+                    // Use XMLHttpRequest instead of fetch to avoid HTTPS upgrade issues
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', apiUrl, true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    
+                    xhr.onload = function() {
+                        console.log('XHR Response received:', xhr.status);
+                        if (xhr.status === 200) {
+                            const data = JSON.parse(xhr.responseText);
+                            console.log('Response data:', data);
+                            if (data.success) {
+                                displayResults(data.data);
+                            } else {
+                                showError(data.message || 'Audit failed');
+                            }
+                        } else {
+                            showError('Server error: ' + xhr.status);
+                        }
+                    };
+                    
+                    xhr.onerror = function() {
+                        console.error('XHR Error:', xhr.statusText);
+                        showError('Network error occurred. Please try again.');
+                    };
+                    
+                    xhr.send(JSON.stringify({ url }));
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('An error occurred while analyzing your website. Please try again.');
+                } finally {
+                    hideLoading();
+                    isAuditing = false;
+                }
+            });
+
+        // Form submission (only for Enter key)
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Form submitted via Enter key!');
+            
+            // Trigger the same logic as button click
+            auditButton.click();
+        });
+
+        // Utility functions
+        function showLoading() {
+            loading.style.display = 'block';
+            auditButton.disabled = true;
+            auditButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+            auditButton.disabled = false;
+            auditButton.innerHTML = '<i class="fas fa-play"></i> Start Audit';
+        }
+
+        function showError(message) {
+            error.textContent = message;
+            error.style.display = 'block';
+        }
+
+        function hideError() {
+            error.style.display = 'none';
+        }
+
+        function showResults() {
+            results.style.display = 'block';
+        }
+
+        function hideResults() {
+            results.style.display = 'none';
+        }
+
+        function displayResults(data) {
+            const categories = [
+                {
+                    key: 'performance',
+                    title: 'Performance',
+                    icon: 'fas fa-tachometer-alt',
+                    data: data.performance,
+                    color: '#667eea'
+                },
+                {
+                    key: 'seo',
+                    title: 'SEO',
+                    icon: 'fas fa-search',
+                    data: data.seo,
+                    color: '#10b981'
+                },
+                {
+                    key: 'accessibility',
+                    title: 'Accessibility',
+                    icon: 'fas fa-universal-access',
+                    data: data.accessibility,
+                    color: '#f59e0b'
+                },
+                {
+                    key: 'crawlability',
+                    title: 'Crawlability',
+                    icon: 'fas fa-spider',
+                    data: data.crawlability,
+                    color: '#ef4444'
+                }
+            ];
+
+            let html = '<h2 style="text-align: center; margin-bottom: 2rem; color: #1f2937; font-size: 1.5rem;">Audit Results</h2>';
+            html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">';
+
+            categories.forEach(category => {
+                const score = category.data.score || 0;
+                const scoreColor = score >= 80 ? '#10b981' : score >= 60 ? '#f59e0b' : '#ef4444';
+                
+                html += `
+                    <div class="category-card" data-category="${category.key}" style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; cursor: pointer;">
+                        <div style="font-size: 2rem; color: ${category.color}; margin-bottom: 1rem;">
+                            <i class="${category.icon}"></i>
+                        </div>
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">${category.title}</h3>
+                        <div style="font-size: 2rem; font-weight: 700; color: ${scoreColor}; margin-bottom: 0.5rem;">${score}/100</div>
+                        <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                            <div style="background: ${scoreColor}; height: 100%; width: ${score}%; transition: width 0.5s ease;"></div>
+                        </div>
+                        <p style="color: #6b7280; font-size: 0.9rem;">${getScoreDescription(score)}</p>
+                        <div style="margin-top: 1rem; font-size: 0.8rem; color: #9ca3af;">
+                            <i class="fas fa-mouse-pointer"></i> Click for details
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+
+            if (data.recommendations && data.recommendations.length > 0) {
+                html += '<div style="margin-top: 2rem; padding: 1.5rem; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 16px;">';
+                html += '<h3 style="color: #0369a1; margin-bottom: 1rem; font-size: 1.1rem;"><i class="fas fa-lightbulb"></i> Key Recommendations</h3>';
+                html += '<ul style="color: #0369a1; padding-left: 1.5rem;">';
+                data.recommendations.slice(0, 5).forEach(rec => {
+                    html += `<li style="margin-bottom: 0.5rem;">${rec}</li>`;
+                });
+                html += '</ul></div>';
+            }
+
+            resultsContent.innerHTML = html;
+            showResults();
+            
+            // Add click listeners to category cards
+            setTimeout(() => {
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const category = this.getAttribute('data-category');
+                        navigateToCategoryPage(category, data);
+                    });
+                    
+                    // Add hover effects
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = 'none';
+                    });
+                });
+                
+                // Add event listener for back button
+                const backButton = document.getElementById('backToResultsBtn');
+                if (backButton) {
+                    backButton.addEventListener('click', goBackToResults);
+                }
+            }, 100);
+        }
+
+        function getScoreDescription(score) {
+            if (score >= 90) return 'Excellent';
+            if (score >= 80) return 'Good';
+            if (score >= 60) return 'Needs Improvement';
+            return 'Poor';
+        }
+
+        function navigateToCategoryPage(category, data) {
+            // Store the audit data globally for the category page
+            window.currentAuditData = data;
+            window.currentCategory = category;
+            
+            // Hide the main content and show category page
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('categoryPage').style.display = 'block';
+            
+            // Load the category content
+            loadCategoryContent(category, data);
+        }
+        
+        function loadCategoryContent(category, data) {
+            const categoryContent = document.getElementById('categoryContent');
+            let content = '';
+            let title = '';
+            let icon = '';
+            
+            switch(category) {
+                case 'performance':
+                    title = 'Performance Analysis';
+                    icon = 'fas fa-tachometer-alt';
+                    content = getPerformanceDetails(data.performance);
+                    break;
+                case 'seo':
+                    title = 'SEO Analysis';
+                    icon = 'fas fa-search';
+                    content = getSEODetails(data.seo);
+                    break;
+                case 'accessibility':
+                    title = 'Accessibility Analysis';
+                    icon = 'fas fa-universal-access';
+                    content = getAccessibilityDetails(data.accessibility);
+                    break;
+                case 'crawlability':
+                    title = 'Crawlability Analysis';
+                    icon = 'fas fa-spider';
+                    content = getCrawlabilityDetails(data.crawlability);
+                    break;
+            }
+            
+            categoryContent.innerHTML = `
+                <div class="category-header">
+                    <div class="back-button" id="backToResultsBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Results
+                    </div>
+                    <h1><i class="${icon}"></i> ${title}</h1>
+                    <div class="category-info">
+                        <span class="audited-url">${data.url}</span>
+                        <span class="audit-date">${new Date(data.timestamp).toLocaleDateString()}</span>
+                    </div>
+                </div>
+                <div class="category-body">
+                    ${content}
+                </div>
+            `;
+            
+            // Add event listener for back button
+            setTimeout(() => {
+                const backButton = document.getElementById('backToResultsBtn');
+                if (backButton) {
+                    backButton.addEventListener('click', goBackToResults);
+                }
+            }, 100);
+        }
+        
+        function goBackToResults() {
+            document.getElementById('categoryPage').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+        }
+        
+        // Make goBackToResults globally accessible
+        window.goBackToResults = goBackToResults;
+        
+        function getPerformanceDetails(performance) {
+            let html = `
+                <div class="score-section">
+                    <h3>Overall Performance Score: ${performance.score}/100</h3>
+                    <div class="score-bar">
+                        <div class="score-fill" style="width: ${performance.score}%; background: ${performance.score >= 80 ? '#10b981' : performance.score >= 60 ? '#f59e0b' : '#ef4444'};"></div>
+                    </div>
+                </div>
+                
+                <div class="metrics-section">
+                    <h3><i class="fas fa-chart-line"></i> Core Web Vitals</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>LCP (Largest Contentful Paint)</h4>
+                            <div class="metric-value ${performance.coreWebVitals.lcp <= 2500 ? 'good' : 'poor'}">${performance.coreWebVitals.lcp}ms</div>
+                            <p>${performance.coreWebVitals.lcp <= 2500 ? '✅ Good' : '❌ Needs improvement'}</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>FID (First Input Delay)</h4>
+                            <div class="metric-value ${performance.coreWebVitals.fid <= 100 ? 'good' : 'poor'}">${performance.coreWebVitals.fid}ms</div>
+                            <p>${performance.coreWebVitals.fid <= 100 ? '✅ Good' : '❌ Needs improvement'}</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>CLS (Cumulative Layout Shift)</h4>
+                            <div class="metric-value ${performance.coreWebVitals.cls <= 0.1 ? 'good' : 'poor'}">${performance.coreWebVitals.cls}</div>
+                            <p>${performance.coreWebVitals.cls <= 0.1 ? '✅ Good' : '❌ Needs improvement'}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="issues-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Performance Issues</h3>
+                    <div class="issues-list">
+            `;
+            
+            // Add specific performance issues based on scores
+            if (performance.coreWebVitals.lcp > 2500) {
+                html += `<div class="issue-item high">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Slow Largest Contentful Paint:</strong> Your LCP is ${performance.coreWebVitals.lcp}ms. Optimize images, reduce server response time, and eliminate render-blocking resources.
+                </div>`;
+            }
+            
+            if (performance.coreWebVitals.fid > 100) {
+                html += `<div class="issue-item high">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>High First Input Delay:</strong> Your FID is ${performance.coreWebVitals.fid}ms. Reduce JavaScript execution time and break up long tasks.
+                </div>`;
+            }
+            
+            if (performance.coreWebVitals.cls > 0.1) {
+                html += `<div class="issue-item high">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Layout Shift Issues:</strong> Your CLS is ${performance.coreWebVitals.cls}. Add size attributes to images and avoid inserting content above existing content.
+                </div>`;
+            }
+            
+            html += `
+                    </div>
+                </div>
+                
+                <div class="recommendations-section">
+                    <h3><i class="fas fa-lightbulb"></i> Recommendations</h3>
+                    <ul class="recommendations-list">
+                        <li>Optimize and compress images</li>
+                        <li>Minimize CSS and JavaScript</li>
+                        <li>Use a Content Delivery Network (CDN)</li>
+                        <li>Enable browser caching</li>
+                        <li>Remove unused CSS and JavaScript</li>
+                    </ul>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        function getSEODetails(seo) {
+            let html = `
+                <div class="score-section">
+                    <h3>Overall SEO Score: ${seo.score}/100</h3>
+                    <div class="score-bar">
+                        <div class="score-fill" style="width: ${seo.score}%; background: ${seo.score >= 80 ? '#10b981' : seo.score >= 60 ? '#f59e0b' : '#ef4444'};"></div>
+                    </div>
+                </div>
+                
+                <div class="seo-analysis">
+                    <h3><i class="fas fa-search"></i> SEO Analysis</h3>
+                    <div class="seo-grid">
+                        <div class="seo-item">
+                            <h4>Title Tag</h4>
+                            <div class="status ${seo.title.present ? 'good' : 'poor'}">
+                                ${seo.title.present ? '✅ Present' : '❌ Missing'}
+                            </div>
+                            ${seo.title.present ? `<p><strong>Content:</strong> "${seo.title.content}"</p>` : ''}
+                            ${seo.title.length > 60 ? '<p class="warning">⚠️ Title is too long (recommended: 50-60 characters)</p>' : ''}
+                        </div>
+                        
+                        <div class="seo-item">
+                            <h4>Meta Description</h4>
+                            <div class="status ${seo.metaDescription.present ? 'good' : 'poor'}">
+                                ${seo.metaDescription.present ? '✅ Present' : '❌ Missing'}
+                            </div>
+                            ${seo.metaDescription.present ? `<p><strong>Content:</strong> "${seo.metaDescription.content}"</p>` : ''}
+                            ${seo.metaDescription.length > 160 ? '<p class="warning">⚠️ Description is too long (recommended: 150-160 characters)</p>' : ''}
+                        </div>
+                        
+                        <div class="seo-item">
+                            <h4>Heading Structure</h4>
+                            <div class="status ${seo.headings.hasH1 ? 'good' : 'poor'}">
+                                ${seo.headings.hasH1 ? '✅ Has H1' : '❌ Missing H1'}
+                            </div>
+                            <p><strong>H1:</strong> ${seo.headings.h1} | <strong>H2:</strong> ${seo.headings.h2} | <strong>H3:</strong> ${seo.headings.h3}</p>
+                            ${seo.headings.multipleH1 ? '<p class="warning">⚠️ Multiple H1 tags found (should have only one)</p>' : ''}
+                        </div>
+                        
+                        <div class="seo-item">
+                            <h4>Images</h4>
+                            <div class="status ${seo.images.altTextCoverage === 100 ? 'good' : 'poor'}">
+                                ${seo.images.altTextCoverage === 100 ? '✅ All images have alt text' : '❌ Missing alt text'}
+                            </div>
+                            <p><strong>Total Images:</strong> ${seo.images.total} | <strong>With Alt:</strong> ${seo.images.withAlt}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="issues-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> SEO Issues</h3>
+                    <div class="issues-list">
+            `;
+            
+            if (!seo.title.present) {
+                html += `<div class="issue-item high">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Missing Title Tag:</strong> Add a descriptive title tag to improve search engine visibility.
+                </div>`;
+            }
+            
+            if (!seo.metaDescription.present) {
+                html += `<div class="issue-item high">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Missing Meta Description:</strong> Add a compelling meta description to improve click-through rates.
+                </div>`;
+            }
+            
+            if (!seo.headings.hasH1) {
+                html += `<div class="issue-item high">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Missing H1 Tag:</strong> Add a main heading (H1) to structure your content properly.
+                </div>`;
+            }
+            
+            if (seo.images.altTextCoverage < 100) {
+                html += `<div class="issue-item medium">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Missing Alt Text:</strong> ${seo.images.withoutAlt} images are missing alt text descriptions.
+                </div>`;
+            }
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        function getAccessibilityDetails(accessibility) {
+            let html = `
+                <div class="score-section">
+                    <h3>Overall Accessibility Score: ${accessibility.score}/100</h3>
+                    <div class="score-bar">
+                        <div class="score-fill" style="width: ${accessibility.score}%; background: ${accessibility.score >= 80 ? '#10b981' : accessibility.score >= 60 ? '#f59e0b' : '#ef4444'};"></div>
+                    </div>
+                </div>
+                
+                <div class="accessibility-analysis">
+                    <h3><i class="fas fa-universal-access"></i> Accessibility Analysis</h3>
+                    <div class="accessibility-stats">
+                        <div class="stat-item">
+                            <h4>Total Elements Analyzed</h4>
+                            <div class="stat-value">${accessibility.totalElements}</div>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Issues Found</h4>
+                            <div class="stat-value">${accessibility.issues.length}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="issues-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Accessibility Issues</h3>
+                    <div class="issues-list">
+            `;
+            
+            if (accessibility.issues.length === 0) {
+                html += `<div class="no-issues">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Great! No accessibility issues found.</p>
+                </div>`;
+            } else {
+                accessibility.issues.forEach(issue => {
+                    const severityClass = issue.type === 'error' ? 'high' : issue.type === 'warning' ? 'medium' : 'low';
+                    html += `<div class="issue-item ${severityClass}">
+                        <i class="fas fa-${issue.type === 'error' ? 'exclamation-circle' : issue.type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                        <strong>${issue.message}</strong>
+                        ${issue.count ? `<span class="count">(${issue.count} instances)</span>` : ''}
+                    </div>`;
+                });
+            }
+            
+            html += `
+                    </div>
+                </div>
+                
+                <div class="recommendations-section">
+                    <h3><i class="fas fa-lightbulb"></i> Accessibility Recommendations</h3>
+                    <ul class="recommendations-list">
+                        <li>Ensure all images have descriptive alt text</li>
+                        <li>Use proper heading hierarchy (H1, H2, H3, etc.)</li>
+                        <li>Provide sufficient color contrast</li>
+                        <li>Make interactive elements keyboard accessible</li>
+                        <li>Use semantic HTML elements</li>
+                    </ul>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        function getCrawlabilityDetails(crawlability) {
+            let html = `
+                <div class="score-section">
+                    <h3>Overall Crawlability Score: ${crawlability.score}/100</h3>
+                    <div class="score-bar">
+                        <div class="score-fill" style="width: ${crawlability.score}%; background: ${crawlability.score >= 80 ? '#10b981' : crawlability.score >= 60 ? '#f59e0b' : '#ef4444'};"></div>
+                    </div>
+                </div>
+                
+                <div class="crawlability-analysis">
+                    <h3><i class="fas fa-spider"></i> Crawlability Analysis</h3>
+                    <div class="crawlability-stats">
+                        <div class="stat-item">
+                            <h4>URL Status</h4>
+                            <div class="stat-value ${crawlability.hasContent ? 'good' : 'poor'}">
+                                ${crawlability.hasContent ? '✅ Accessible' : '❌ Not Accessible'}
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Script Count</h4>
+                            <div class="stat-value">${crawlability.scriptCount}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="issues-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Crawlability Issues</h3>
+                    <div class="issues-list">
+            `;
+            
+            if (crawlability.issues.length === 0) {
+                html += `<div class="no-issues">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Great! No crawlability issues found.</p>
+                </div>`;
+            } else {
+                crawlability.issues.forEach(issue => {
+                    const severityClass = issue.severity === 'high' ? 'high' : issue.severity === 'medium' ? 'medium' : 'low';
+                    html += `<div class="issue-item ${severityClass}">
+                        <i class="fas fa-${issue.severity === 'high' ? 'exclamation-circle' : issue.severity === 'medium' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                        <strong>${issue.message}</strong>
+                        <span class="severity">${issue.severity.toUpperCase()}</span>
+                    </div>`;
+                });
+            }
+            
+            html += `
+                    </div>
+                </div>
+                
+                <div class="recommendations-section">
+                    <h3><i class="fas fa-lightbulb"></i> Crawlability Recommendations</h3>
+                    <ul class="recommendations-list">
+                        <li>Ensure all pages are accessible to search engines</li>
+                        <li>Use clean, semantic HTML structure</li>
+                        <li>Avoid excessive JavaScript dependencies</li>
+                        <li>Implement proper robots.txt</li>
+                        <li>Create an XML sitemap</li>
+                    </ul>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        function closeModal() {
+            document.getElementById('detailedModal').style.display = 'none';
+        }
+
+        // Smooth scroll for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Chatbot Functionality
+        console.log('=== CHATBOT DEBUG START ===');
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotPanel = document.getElementById('chatbotPanel');
+        const closeChatbot = document.getElementById('closeChatbot');
+        const chatbotForm = document.getElementById('chatbotForm');
+        const chatbotSuccess = document.getElementById('chatbotSuccess');
+
+        console.log('Chatbot elements found:', {
+            toggle: !!chatbotToggle,
+            panel: !!chatbotPanel,
+            close: !!closeChatbot,
+            form: !!chatbotForm,
+            success: !!chatbotSuccess
+        });
+
+        // Hide chatbot initially
+        if (chatbotToggle) {
+            chatbotToggle.style.display = 'none';
+            console.log('Chatbot hidden initially');
+        } else {
+            console.log('ERROR: Chatbot toggle element not found!');
+        }
+
+        // Show chatbot after 5 seconds for testing (change to 30000 for 30 seconds)
+        setTimeout(() => {
+            console.log('Attempting to show chatbot...');
+            if (chatbotToggle) {
+                chatbotToggle.style.display = 'flex';
+                console.log('✅ Chatbot toggle displayed successfully!');
+            } else {
+                console.log('❌ Chatbot toggle element not found!');
+            }
+        }, 5000); // 5 seconds for testing
+
+        // Toggle chatbot panel
+        if (chatbotToggle) {
+            chatbotToggle.addEventListener('click', function() {
+                chatbotPanel.classList.add('active');
+                chatbotToggle.style.display = 'none';
+            });
+        }
+
+        // Close chatbot panel
+        if (closeChatbot) {
+            closeChatbot.addEventListener('click', function() {
+                chatbotPanel.classList.remove('active');
+                setTimeout(() => {
+                    chatbotToggle.style.display = 'flex';
+                }, 300);
+            });
+        }
+
+        // Handle chatbot form submission
+        if (chatbotForm) {
+            chatbotForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(chatbotForm);
+                const chatbotData = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    website: urlInput ? urlInput.value : 'Not provided',
+                    timestamp: new Date().toISOString(),
+                    source: 'chatbot'
+                };
+
+                console.log('📧 Submitting chatbot lead:', chatbotData);
+
+                try {
+                    // Show loading state
+                    const submitBtn = chatbotForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = 'Sending...';
+                    submitBtn.disabled = true;
+
+                    // Send to Brevo API
+                    const response = await fetch('/api/leads/submit-lead', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(chatbotData)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Show success message
+                        chatbotForm.style.display = 'none';
+                        chatbotSuccess.style.display = 'block';
+                        console.log('✅ Lead submitted successfully:', result);
+                        
+                        // Auto-close after 5 seconds
+                        setTimeout(() => {
+                            chatbotPanel.classList.remove('active');
+                            setTimeout(() => {
+                                chatbotToggle.style.display = 'flex';
+                            }, 300);
+                        }, 5000);
+                    } else {
+                        throw new Error(result.message || 'Failed to submit lead');
+                    }
+
+                } catch (error) {
+                    console.error('❌ Error submitting lead:', error);
+                    
+                    // Show error message
+                    const errorDiv = document.createElement('div');
+                    errorDiv.style.cssText = `
+                        background: #fed7d7;
+                        color: #c53030;
+                        padding: 10px;
+                        border-radius: 8px;
+                        margin-top: 10px;
+                        font-size: 14px;
+                        text-align: center;
+                    `;
+                    errorDiv.textContent = 'Failed to submit. Please try again or contact us directly.';
+                    chatbotForm.appendChild(errorDiv);
+                    
+                    // Reset button
+                    const submitBtn = chatbotForm.querySelector('button[type="submit"]');
+                    submitBtn.textContent = 'Get Help Now';
+                    submitBtn.disabled = false;
+                    
+                    // Remove error message after 5 seconds
+                    setTimeout(() => {
+                        if (errorDiv.parentNode) {
+                            errorDiv.parentNode.removeChild(errorDiv);
+                        }
+                    }, 5000);
+                }
+            });
+        }
+        
+        }); // End DOMContentLoaded
+    </script>
+</body>
+</html>
