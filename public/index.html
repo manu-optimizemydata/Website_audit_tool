@@ -855,6 +855,14 @@
                 padding: 10px 12px !important;
                 font-size: 14px !important;
                 border-radius: 8px !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border: 2px solid #000000 !important;
+                box-shadow: none !important;
+                outline: none !important;
             }
             
             .chatbot-form button {
@@ -936,6 +944,14 @@
                 padding: 8px 10px !important;
                 font-size: 13px !important;
                 border-radius: 6px !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border: 2px solid #000000 !important;
+                box-shadow: none !important;
+                outline: none !important;
             }
             
             .chatbot-form button {
@@ -1002,11 +1018,66 @@
             .chatbot-form input {
                 padding: 6px 8px !important;
                 font-size: 12px !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border: 2px solid #000000 !important;
+                box-shadow: none !important;
+                outline: none !important;
             }
             
             .chatbot-form button {
                 padding: 6px 10px;
                 font-size: 11px;
+            }
+        }
+
+        /* Additional Mobile Input Fixes */
+        @media (max-width: 768px) {
+            .chatbot-form input[type="text"],
+            .chatbot-form input[type="email"],
+            .chatbot-form input[type="tel"] {
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border: 2px solid #000000 !important;
+                box-shadow: none !important;
+                outline: none !important;
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                border-radius: 8px !important;
+                padding: 12px 14px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .chatbot-form input:focus {
+                border-color: #667eea !important;
+                background-color: #ffffff !important;
+                box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-form input[type="text"],
+            .chatbot-form input[type="email"],
+            .chatbot-form input[type="tel"] {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 10px 12px !important;
+                border-radius: 6px !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .chatbot-form input[type="text"],
+            .chatbot-form input[type="email"],
+            .chatbot-form input[type="tel"] {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 8px 10px !important;
+                border-radius: 4px !important;
             }
         }
 
