@@ -1051,6 +1051,12 @@
                 outline: none !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
+                pointer-events: auto !important;
+                user-select: text !important;
+                -webkit-user-select: text !important;
+                -moz-user-select: text !important;
+                -ms-user-select: text !important;
+                touch-action: manipulation !important;
             }
             
             .url-input:focus {
@@ -1077,6 +1083,12 @@
                 padding: 12px 14px !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
+                pointer-events: auto !important;
+                user-select: text !important;
+                -webkit-user-select: text !important;
+                -moz-user-select: text !important;
+                -ms-user-select: text !important;
+                touch-action: manipulation !important;
             }
             
             .chatbot-form input:focus {
@@ -1119,6 +1131,29 @@
                 font-size: 16px !important; /* Prevents zoom on iOS */
                 padding: 8px 10px !important;
                 border-radius: 4px !important;
+            }
+        }
+
+        /* Global Mobile Input Fixes */
+        @media (max-width: 768px) {
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="url"] {
+                pointer-events: auto !important;
+                user-select: text !important;
+                -webkit-user-select: text !important;
+                -moz-user-select: text !important;
+                -ms-user-select: text !important;
+                touch-action: manipulation !important;
+                -webkit-touch-callout: default !important;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1) !important;
+            }
+            
+            input:focus {
+                pointer-events: auto !important;
+                user-select: text !important;
+                -webkit-user-select: text !important;
             }
         }
 
