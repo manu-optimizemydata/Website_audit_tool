@@ -1,13 +1,8 @@
 const express = require('express');
-const WebsiteAuditor = require('../lib/auditor');
 const SimpleWebsiteAuditor = require('../lib/simpleAuditor');
 
 const router = express.Router();
-const auditor = new WebsiteAuditor();
 const simpleAuditor = new SimpleWebsiteAuditor();
-
-// Initialize auditor
-auditor.init().catch(console.error);
 
 router.post('/analyze', async (req, res) => {
   try {

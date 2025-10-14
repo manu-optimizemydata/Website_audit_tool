@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d public",
+    "build": "echo 'No build process needed - static files served directly'"
   },
   "dependencies": {
     "axios": "^1.6.0",
@@ -20,6 +23,7 @@
     "sib-api-v3-sdk": "^8.5.0"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "nodemon": "^3.0.1"
   },
   "keywords": [

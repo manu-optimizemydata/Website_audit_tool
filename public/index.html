@@ -483,7 +483,7 @@
                 padding: 0 1rem;
             }
 
-            .category-header {
+        .category-header {
                 padding: 1.5rem;
             }
 
@@ -883,27 +883,27 @@
                 </div>
                 
                 <div class="button-group">
-                    <button type="submit" class="audit-button" id="auditButton">
-                        <i class="fas fa-play"></i>
-                        Start Audit
-                    </button>
-                </div>
+                <button type="submit" class="audit-button" id="auditButton">
+                    <i class="fas fa-play"></i>
+                    Start Audit
+                </button>
+        </div>
             </form>
 
             <!-- Loading State -->
-            <div class="loading" id="loading">
+        <div class="loading" id="loading">
                 <div class="loading-spinner"></div>
                 <div class="loading-text">Analyzing your website...</div>
-            </div>
+        </div>
 
             <!-- Error Message -->
             <div class="error" id="error" style="display: none;"></div>
 
             <!-- Results -->
-            <div class="results" id="results">
+        <div class="results" id="results">
                 <div id="resultsContent"></div>
             </div>
-        </div>
+            </div>
 
         <!-- Benefits Section -->
         <div class="benefits-section">
@@ -939,13 +939,13 @@
                 </div>
             </div>
         </div>
-    </div>
+            </div>
 
     <!-- Detailed Analysis Modal -->
     <div id="detailedModal" class="modal">
         <div class="modal-content">
             <div id="modalContent"></div>
-        </div>
+            </div>
     </div>
 
     <!-- Category Analysis Page -->
@@ -962,11 +962,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded!');
             
-            const form = document.getElementById('auditForm');
+        const form = document.getElementById('auditForm');
             const urlInput = document.getElementById('url');
             const auditButton = document.getElementById('auditButton');
-            const loading = document.getElementById('loading');
-            const results = document.getElementById('results');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
             const error = document.getElementById('error');
             const resultsContent = document.getElementById('resultsContent');
             
@@ -990,7 +990,7 @@
             
             // Button click handler for audit
             auditButton.addEventListener('click', async function(e) {
-                e.preventDefault();
+            e.preventDefault();
                 
                 if (isAuditing) {
                     console.log('Audit already in progress, ignoring click');
@@ -1002,12 +1002,12 @@
                 
                 let url = urlInput.value.trim();
                 console.log('URL entered:', url);
-                
-                if (!url) {
+            
+            if (!url) {
                     console.log('No URL provided');
-                    showError('Please enter a valid URL');
-                    return;
-                }
+                showError('Please enter a valid URL');
+                return;
+            }
 
                 // Preprocess URL - add https:// if missing
                 if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -1043,13 +1043,13 @@
                         console.log('XHR Response received:', xhr.status);
                         if (xhr.status === 200) {
                             const data = JSON.parse(xhr.responseText);
-                            console.log('Response data:', data);
-                            if (data.success) {
-                                displayResults(data.data);
-                            } else {
-                                showError(data.message || 'Audit failed');
-                            }
-                        } else {
+                console.log('Response data:', data);
+                if (data.success) {
+                    displayResults(data.data);
+                } else {
+                    showError(data.message || 'Audit failed');
+                }
+                } else {
                             showError('Server error: ' + xhr.status);
                         }
                     };
@@ -1063,7 +1063,7 @@
                 } catch (error) {
                     console.error('Error:', error);
                     showError('An error occurred while analyzing your website. Please try again.');
-                } finally {
+            } finally {
                     hideLoading();
                     isAuditing = false;
                 }
@@ -1150,8 +1150,8 @@
                 html += `
                     <div class="category-card" data-category="${category.key}" style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; cursor: pointer;">
                         <div style="font-size: 2rem; color: ${category.color}; margin-bottom: 1rem;">
-                            <i class="${category.icon}"></i>
-                        </div>
+                                <i class="${category.icon}"></i>
+                            </div>
                         <h3 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">${category.title}</h3>
                         <div style="font-size: 2rem; font-weight: 700; color: ${scoreColor}; margin-bottom: 0.5rem;">${score}/100</div>
                         <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
@@ -1294,10 +1294,10 @@
             let html = `
                 <div class="score-section">
                     <h3>Overall Performance Score: ${performance.score}/100</h3>
-                    <div class="score-bar">
+                        <div class="score-bar">
                         <div class="score-fill" style="width: ${performance.score}%; background: ${performance.score >= 80 ? '#10b981' : performance.score >= 60 ? '#f59e0b' : '#ef4444'};"></div>
-                    </div>
-                </div>
+                        </div>
+                        </div>
                 
                 <div class="metrics-section">
                     <h3><i class="fas fa-chart-line"></i> Core Web Vitals</h3>
@@ -1306,7 +1306,7 @@
                             <h4>LCP (Largest Contentful Paint)</h4>
                             <div class="metric-value ${performance.coreWebVitals.lcp <= 2500 ? 'good' : 'poor'}">${performance.coreWebVitals.lcp}ms</div>
                             <p>${performance.coreWebVitals.lcp <= 2500 ? '✅ Good' : '❌ Needs improvement'}</p>
-                        </div>
+                    </div>
                         <div class="metric-card">
                             <h4>FID (First Input Delay)</h4>
                             <div class="metric-value ${performance.coreWebVitals.fid <= 100 ? 'good' : 'poor'}">${performance.coreWebVitals.fid}ms</div>
@@ -1707,7 +1707,7 @@
                     console.error('❌ Error submitting lead:', error);
                     
                     // Show error message
-                    const errorDiv = document.createElement('div');
+            const errorDiv = document.createElement('div');
                     errorDiv.style.cssText = `
                         background: #fed7d7;
                         color: #c53030;
@@ -1726,12 +1726,12 @@
                     submitBtn.disabled = false;
                     
                     // Remove error message after 5 seconds
-                    setTimeout(() => {
+            setTimeout(() => {
                         if (errorDiv.parentNode) {
                             errorDiv.parentNode.removeChild(errorDiv);
                         }
-                    }, 5000);
-                }
+            }, 5000);
+        }
             });
         }
         
