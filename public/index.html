@@ -1036,6 +1036,31 @@
 
         /* Additional Mobile Input Fixes */
         @media (max-width: 768px) {
+            /* Main URL Input Mobile Fixes */
+            .url-input {
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 1rem 1.25rem !important;
+                border: 2px solid rgba(255, 255, 255, 0.2) !important;
+                border-radius: 16px !important;
+                background: rgba(0, 0, 0, 0.3) !important;
+                color: #ffffff !important;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+                outline: none !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .url-input:focus {
+                border-color: #64c8ff !important;
+                background: rgba(0, 0, 0, 0.4) !important;
+                box-shadow: 0 0 0 4px rgba(100, 200, 255, 0.2), 0 8px 25px rgba(100, 200, 255, 0.3) !important;
+                transform: translateY(-2px) !important;
+            }
+            
+            /* Chatbot Form Mobile Fixes */
             .chatbot-form input[type="text"],
             .chatbot-form input[type="email"],
             .chatbot-form input[type="tel"] {
@@ -1062,6 +1087,14 @@
         }
 
         @media (max-width: 480px) {
+            /* Main URL Input Mobile Fixes */
+            .url-input {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 0.875rem 1rem !important;
+                border-radius: 12px !important;
+            }
+            
+            /* Chatbot Form Mobile Fixes */
             .chatbot-form input[type="text"],
             .chatbot-form input[type="email"],
             .chatbot-form input[type="tel"] {
@@ -1072,6 +1105,14 @@
         }
 
         @media (max-width: 360px) {
+            /* Main URL Input Mobile Fixes */
+            .url-input {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 0.75rem 0.875rem !important;
+                border-radius: 10px !important;
+            }
+            
+            /* Chatbot Form Mobile Fixes */
             .chatbot-form input[type="text"],
             .chatbot-form input[type="email"],
             .chatbot-form input[type="tel"] {
