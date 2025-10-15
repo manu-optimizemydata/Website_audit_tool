@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Website Audit Tool - Professional SEO Analysis</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -1139,7 +1139,8 @@
             input[type="text"],
             input[type="email"],
             input[type="tel"],
-            input[type="url"] {
+            input[type="url"],
+            input {
                 pointer-events: auto !important;
                 user-select: text !important;
                 -webkit-user-select: text !important;
@@ -1151,6 +1152,12 @@
                 -webkit-appearance: none !important;
                 -moz-appearance: none !important;
                 appearance: none !important;
+                -webkit-text-size-adjust: 100% !important;
+                -ms-text-size-adjust: 100% !important;
+                text-size-adjust: 100% !important;
+                -webkit-user-modify: read-write !important;
+                -moz-user-modify: read-write !important;
+                user-modify: read-write !important;
             }
             
             input:focus {
@@ -1330,6 +1337,42 @@
         const results = document.getElementById('results');
             const error = document.getElementById('error');
             const resultsContent = document.getElementById('resultsContent');
+            
+            // Mobile Input Enhancement
+            function enhanceMobileInputs() {
+                const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="url"]');
+                inputs.forEach(input => {
+                    // Remove any conflicting attributes
+                    input.removeAttribute('readonly');
+                    input.removeAttribute('disabled');
+                    
+                    // Add mobile-friendly attributes
+                    input.setAttribute('autocomplete', 'on');
+                    input.setAttribute('autocorrect', 'on');
+                    input.setAttribute('autocapitalize', 'on');
+                    input.setAttribute('spellcheck', 'true');
+                    
+                    // Force focus capability
+                    input.style.pointerEvents = 'auto';
+                    input.style.userSelect = 'text';
+                    input.style.webkitUserSelect = 'text';
+                    input.style.touchAction = 'auto';
+                    
+                    // Add touch event listeners
+                    input.addEventListener('touchstart', function(e) {
+                        e.stopPropagation();
+                        this.focus();
+                    }, { passive: true });
+                    
+                    input.addEventListener('touchend', function(e) {
+                        e.stopPropagation();
+                        this.focus();
+                    }, { passive: true });
+                });
+            }
+            
+            // Run mobile enhancement
+            enhanceMobileInputs();
             
             console.log('Elements found:', {
                 form: !!form,
