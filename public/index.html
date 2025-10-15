@@ -171,42 +171,6 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
-        /* Contenteditable Input Styles */
-        .contenteditable-input {
-            min-height: 60px;
-            padding: 1rem 1.25rem;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            outline: none;
-            width: 100%;
-            box-sizing: border-box;
-            font-family: inherit;
-            font-size: 1rem;
-            line-height: 1.5;
-            transition: all 0.3s ease;
-            cursor: text;
-        }
-        
-        .contenteditable-input:focus {
-            border-color: #64c8ff;
-            background: rgba(0, 0, 0, 0.4);
-            box-shadow: 0 0 0 4px rgba(100, 200, 255, 0.2), 0 8px 25px rgba(100, 200, 255, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .contenteditable-input:empty:before {
-            content: attr(data-placeholder);
-            color: rgba(255, 255, 255, 0.6);
-            pointer-events: none;
-        }
-        
-        .contenteditable-input:empty:focus:before {
-            content: attr(data-placeholder);
-            color: rgba(255, 255, 255, 0.4);
-        }
 
         /* Premium Button Styles */
         .button-group {
@@ -1071,20 +1035,10 @@
             }
         }
 
-        /* Simple Mobile Input Styles */
+        /* Clean Mobile Input - No Interference */
         @media (max-width: 768px) {
-            .url-input {
+            input {
                 font-size: 16px !important;
-                -webkit-appearance: none !important;
-                -moz-appearance: none !important;
-                appearance: none !important;
-            }
-            
-            .chatbot-form input {
-                font-size: 16px !important;
-                -webkit-appearance: none !important;
-                -moz-appearance: none !important;
-                appearance: none !important;
             }
         }
 
@@ -1215,8 +1169,7 @@
             <form id="auditForm">
                 <div class="form-group">
                     <label for="url">Website URL</label>
-                    <div id="url" class="url-input contenteditable-input" contenteditable="true" data-placeholder="https://example.com" role="textbox" aria-label="Website URL"></div>
-                    <input type="hidden" id="url-hidden" name="url" required>
+                    <input type="text" id="url" name="url" placeholder="https://example.com" required style="width: 100%; padding: 15px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; background: white; color: black;">
                 </div>
                 
                 <div class="button-group">
@@ -1307,34 +1260,8 @@
             const error = document.getElementById('error');
             const resultsContent = document.getElementById('resultsContent');
             
-            // Contenteditable Input Handler
-            function setupContenteditableInput() {
-                const contenteditableDiv = document.getElementById('url');
-                const hiddenInput = document.getElementById('url-hidden');
-                
-                if (contenteditableDiv) {
-                    // Sync contenteditable content to hidden input
-                    contenteditableDiv.addEventListener('input', function() {
-                        hiddenInput.value = this.textContent.trim();
-                        console.log('Contenteditable input:', hiddenInput.value);
-                    });
-                    
-                    // Handle paste events
-                    contenteditableDiv.addEventListener('paste', function(e) {
-                        e.preventDefault();
-                        const text = (e.clipboardData || window.clipboardData).getData('text');
-                        document.execCommand('insertText', false, text);
-                    });
-                    
-                    // Simple click handler
-                    contenteditableDiv.addEventListener('click', function() {
-                        this.focus();
-                    });
-                }
-            }
-            
-            // Run the setup
-            setupContenteditableInput();
+            // Simple form handling - no complex mobile fixes
+            console.log('Using simple form handling');
             
             console.log('Elements found:', {
                 form: !!form,
@@ -1367,8 +1294,7 @@
                 console.log('Button clicked! Starting audit...');
                 isAuditing = true;
                 
-                const hiddenInput = document.getElementById('url-hidden');
-                let url = hiddenInput ? hiddenInput.value.trim() : '';
+                let url = urlInput.value.trim();
                 console.log('URL entered:', url);
             
             if (!url) {
@@ -2036,12 +1962,11 @@
                 console.log('📧 Chatbot form submitted!');
                 
                 const formData = new FormData(chatbotForm);
-                const hiddenInput = document.getElementById('url-hidden');
                 const chatbotData = {
                     name: formData.get('name'),
                     email: formData.get('email'),
                     phone: formData.get('phone'),
-                    website: hiddenInput ? hiddenInput.value : 'Not provided',
+                    website: urlInput ? urlInput.value : 'Not provided',
                     timestamp: new Date().toISOString(),
                     source: 'chatbot'
                 };
