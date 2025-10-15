@@ -170,6 +170,43 @@
             border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
+        
+        /* Contenteditable Input Styles */
+        .contenteditable-input {
+            min-height: 60px;
+            padding: 1rem 1.25rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+            cursor: text;
+        }
+        
+        .contenteditable-input:focus {
+            border-color: #64c8ff;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 4px rgba(100, 200, 255, 0.2), 0 8px 25px rgba(100, 200, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .contenteditable-input:empty:before {
+            content: attr(data-placeholder);
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+        }
+        
+        .contenteditable-input:empty:focus:before {
+            content: attr(data-placeholder);
+            color: rgba(255, 255, 255, 0.4);
+        }
 
         /* Premium Button Styles */
         .button-group {
@@ -1178,7 +1215,8 @@
             <form id="auditForm">
                 <div class="form-group">
                     <label for="url">Website URL</label>
-                    <input type="url" id="url" class="url-input" placeholder="https://example.com" autocomplete="url" required>
+                    <div id="url" class="url-input contenteditable-input" contenteditable="true" data-placeholder="https://example.com" role="textbox" aria-label="Website URL"></div>
+                    <input type="hidden" id="url-hidden" name="url" required>
                 </div>
                 
                 <div class="button-group">
@@ -1269,32 +1307,34 @@
             const error = document.getElementById('error');
             const resultsContent = document.getElementById('resultsContent');
             
-            // Simple Mobile Input Fix
-            function fixMobileInputs() {
-                const inputs = document.querySelectorAll('input');
-                inputs.forEach(input => {
-                    // Remove all event listeners first
-                    input.replaceWith(input.cloneNode(true));
-                });
+            // Contenteditable Input Handler
+            function setupContenteditableInput() {
+                const contenteditableDiv = document.getElementById('url');
+                const hiddenInput = document.getElementById('url-hidden');
                 
-                // Re-select inputs after cloning
-                const newInputs = document.querySelectorAll('input');
-                newInputs.forEach(input => {
-                    // Set basic mobile-friendly attributes
-                    input.setAttribute('autocomplete', 'on');
-                    input.setAttribute('autocorrect', 'on');
-                    input.setAttribute('autocapitalize', 'on');
-                    input.setAttribute('spellcheck', 'true');
+                if (contenteditableDiv) {
+                    // Sync contenteditable content to hidden input
+                    contenteditableDiv.addEventListener('input', function() {
+                        hiddenInput.value = this.textContent.trim();
+                        console.log('Contenteditable input:', hiddenInput.value);
+                    });
+                    
+                    // Handle paste events
+                    contenteditableDiv.addEventListener('paste', function(e) {
+                        e.preventDefault();
+                        const text = (e.clipboardData || window.clipboardData).getData('text');
+                        document.execCommand('insertText', false, text);
+                    });
                     
                     // Simple click handler
-                    input.addEventListener('click', function() {
+                    contenteditableDiv.addEventListener('click', function() {
                         this.focus();
                     });
-                });
+                }
             }
             
-            // Run the fix
-            fixMobileInputs();
+            // Run the setup
+            setupContenteditableInput();
             
             console.log('Elements found:', {
                 form: !!form,
@@ -1327,7 +1367,8 @@
                 console.log('Button clicked! Starting audit...');
                 isAuditing = true;
                 
-                let url = urlInput.value.trim();
+                const hiddenInput = document.getElementById('url-hidden');
+                let url = hiddenInput ? hiddenInput.value.trim() : '';
                 console.log('URL entered:', url);
             
             if (!url) {
@@ -1995,11 +2036,12 @@
                 console.log('📧 Chatbot form submitted!');
                 
                 const formData = new FormData(chatbotForm);
+                const hiddenInput = document.getElementById('url-hidden');
                 const chatbotData = {
                     name: formData.get('name'),
                     email: formData.get('email'),
                     phone: formData.get('phone'),
-                    website: urlInput ? urlInput.value : 'Not provided',
+                    website: hiddenInput ? hiddenInput.value : 'Not provided',
                     timestamp: new Date().toISOString(),
                     source: 'chatbot'
                 };
