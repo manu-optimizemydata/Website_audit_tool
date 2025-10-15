@@ -1155,6 +1155,30 @@
                 user-select: text !important;
                 -webkit-user-select: text !important;
             }
+            
+            /* Mobile Button Fixes */
+            .audit-button {
+                touch-action: manipulation !important;
+                -webkit-tap-highlight-color: rgba(100, 200, 255, 0.3) !important;
+                -webkit-touch-callout: none !important;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                pointer-events: auto !important;
+                cursor: pointer !important;
+            }
+            
+            .audit-button:active {
+                transform: scale(0.98) !important;
+                transition: transform 0.1s ease !important;
+            }
+            
+            /* Ensure buttons are large enough for touch */
+            button {
+                min-height: 44px !important;
+                min-width: 44px !important;
+            }
         }
 
     </style>
@@ -1322,9 +1346,10 @@
             // Prevent duplicate requests
             let isAuditing = false;
             
-            // Button click handler for audit
-            auditButton.addEventListener('click', async function(e) {
-            e.preventDefault();
+            // Function to handle audit (shared between click and touch)
+            const handleAudit = async function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 
                 if (isAuditing) {
                     console.log('Audit already in progress, ignoring click');
@@ -1401,6 +1426,15 @@
                     hideLoading();
                     isAuditing = false;
                 }
+            };
+            
+            // Add both click and touch event listeners for mobile compatibility
+            auditButton.addEventListener('click', handleAudit);
+            auditButton.addEventListener('touchend', handleAudit);
+            
+            // Prevent double-tap zoom on mobile
+            auditButton.addEventListener('touchstart', function(e) {
+                e.preventDefault();
             });
 
         // Form submission (only for Enter key)
