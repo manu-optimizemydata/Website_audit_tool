@@ -1057,6 +1057,12 @@
                 -moz-user-select: text !important;
                 -ms-user-select: text !important;
                 touch-action: auto !important;
+                cursor: text !important;
+                -webkit-tap-highlight-color: rgba(100, 200, 255, 0.3) !important;
+                -webkit-touch-callout: default !important;
+                -webkit-user-modify: read-write !important;
+                -moz-user-modify: read-write !important;
+                user-modify: read-write !important;
             }
             
             .url-input:focus {
@@ -1358,21 +1364,61 @@
                     input.style.webkitUserSelect = 'text';
                     input.style.touchAction = 'auto';
                     
-                    // Add touch event listeners
+                    // Add multiple event listeners for better focus
                     input.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
                         e.stopPropagation();
-                        this.focus();
-                    }, { passive: true });
+                        setTimeout(() => {
+                            this.focus();
+                            this.click();
+                        }, 10);
+                    }, { passive: false });
                     
                     input.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setTimeout(() => {
+                            this.focus();
+                            this.click();
+                        }, 10);
+                    }, { passive: false });
+                    
+                    input.addEventListener('click', function(e) {
+                        e.preventDefault();
                         e.stopPropagation();
                         this.focus();
-                    }, { passive: true });
+                    });
+                    
+                    input.addEventListener('focus', function(e) {
+                        console.log('Input focused:', this.id || this.name);
+                    });
+                    
+                    input.addEventListener('blur', function(e) {
+                        console.log('Input blurred:', this.id || this.name);
+                    });
                 });
             }
             
             // Run mobile enhancement
             enhanceMobileInputs();
+            
+            // Special handling for main URL input
+            if (urlInput) {
+                urlInput.addEventListener('touchstart', function(e) {
+                    console.log('URL input touched');
+                    e.preventDefault();
+                    setTimeout(() => {
+                        this.focus();
+                        this.click();
+                        console.log('URL input focused');
+                    }, 50);
+                }, { passive: false });
+                
+                urlInput.addEventListener('click', function(e) {
+                    console.log('URL input clicked');
+                    this.focus();
+                });
+            }
             
             console.log('Elements found:', {
                 form: !!form,
